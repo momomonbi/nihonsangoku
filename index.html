@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日本三國 ― 壊れた順番の記録</title>
+<style>
+  :root{
+    --bg:#070a08;
+    --bg-2:#0b120d;
+    --ink:#eaeae2;
+    --mist:#b9c9b4;
+    --moss:#7fa68a;
+    --deep:#3a5a46;
+    --blood:#7a2e2e;
+    --line:rgba(178,200,181,0.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);}
+  body{
+    font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+    line-height:2.0;
+    letter-spacing:0.04em;
+    font-weight:400;
+    overflow-x:hidden;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(60,90,70,0.25), transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(30,50,40,0.35), transparent 60%),
+      linear-gradient(180deg,#050706 0%,#070a08 40%,#060907 100%);
+    background-attachment:fixed;
+  }
+
+  .wrap{max-width:860px;margin:0 auto;padding:0 28px}
+
+  /* ── ヘッダー ── */
+  header{
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;
+    padding:20vh 28px 18vh;
+    position:relative;
+  }
+  header::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+    pointer-events:none;
+  }
+  header .kanji{
+    font-size:clamp(48px,10vw,120px);
+    font-weight:300;
+    letter-spacing:0.35em;
+    color:var(--ink);
+    text-shadow:0 0 24px rgba(127,166,138,0.25);
+    margin-bottom:28px;
+  }
+  header .sub{
+    font-size:13px;letter-spacing:0.6em;color:var(--moss);
+    margin-bottom:60px;
+  }
+  header .poem{
+    color:var(--mist);
+    font-size:clamp(15px,1.8vw,18px);
+    line-height:2.4;
+    white-space:pre-line;
+  }
+  header .scroll{
+    margin-top:80px;
+    font-size:10px;letter-spacing:0.5em;color:var(--deep);
+  }
+
+  /* ── セクション共通 ── */
+  section{
+    padding:18vh 0 16vh;
+    border-top:1px solid var(--line);
+    position:relative;
+  }
+  section h2{
+    font-size:clamp(22px,3vw,30px);
+    font-weight:400;
+    color:var(--ink);
+    letter-spacing:0.3em;
+    margin-bottom:10px;
+  }
+  section .eyebrow{
+    font-size:11px;letter-spacing:0.5em;color:var(--moss);
+    display:block;margin-bottom:18px;
+  }
+  section .lead{
+    color:var(--mist);
+    font-size:clamp(14px,1.5vw,16px);
+    margin:48px 0;
+    white-space:pre-line;
+  }
+  section p{
+    color:var(--mist);
+    font-size:15px;
+    margin:24px 0;
+  }
+  section .quote{
+    margin:60px 0;padding:28px 32px;
+    border-left:2px solid var(--moss);
+    color:var(--ink);
+    font-size:16px;
+    line-height:2.3;
+    background:rgba(127,166,138,0.04);
+    white-space:pre-line;
+  }
+  section .whisper{
+    color:var(--deep);
+    font-size:12px;
+    letter-spacing:0.3em;
+    text-align:right;
+    margin-top:16px;
+  }
+
+  /* ── 三国表 ── */
+  .triad{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+    margin:60px 0;
+  }
+  .triad .card{
+    border:1px solid var(--line);
+    padding:32px 22px;
+    background:rgba(10,14,11,0.5);
+    position:relative;
+  }
+  .triad .card .name{
+    font-size:28px;letter-spacing:0.2em;color:var(--ink);margin-bottom:4px;
+  }
+  .triad .card .kana{
+    font-size:10px;letter-spacing:0.4em;color:var(--moss);margin-bottom:28px;
+  }
+  .triad .card .row{
+    display:flex;justify-content:space-between;
+    font-size:12px;color:var(--mist);
+    border-bottom:1px dashed var(--line);
+    padding:8px 0;letter-spacing:0.1em;
+  }
+  .triad .card .row span:first-child{color:var(--deep)}
+  .triad .card .psy{
+    margin-top:24px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--moss);letter-spacing:0.2em;
+  }
+
+  /* ── タイムライン ── */
+  .timeline{margin:60px 0;position:relative;padding-left:30px;}
+  .timeline::before{
+    content:"";position:absolute;left:6px;top:6px;bottom:6px;
+    width:1px;background:linear-gradient(180deg,var(--moss),var(--deep),transparent);
+  }
+  .timeline .step{
+    position:relative;margin-bottom:48px;
+  }
+  .timeline .step::before{
+    content:"";position:absolute;left:-30px;top:10px;
+    width:10px;height:10px;border-radius:50%;
+    background:var(--moss);box-shadow:0 0 12px var(--moss);
+  }
+  .timeline .step h3{
+    font-size:14px;letter-spacing:0.3em;color:var(--ink);
+    font-weight:500;margin-bottom:10px;
+  }
+  .timeline .step .era{
+    font-size:10px;letter-spacing:0.5em;color:var(--deep);margin-bottom:12px;
+  }
+  .timeline .step p{
+    color:var(--mist);font-size:14px;margin:8px 0;
+  }
+
+  /* ── 人物カード ── */
+  .figures{margin:60px 0;display:grid;gap:20px;}
+  .figure{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    display:grid;grid-template-columns:180px 1fr;gap:28px;
+  }
+  .figure .who{
+    font-size:16px;letter-spacing:0.25em;color:var(--ink);
+  }
+  .figure .who small{
+    display:block;font-size:10px;letter-spacing:0.4em;color:var(--moss);margin-top:8px;
+  }
+  .figure .inner{
+    color:var(--mist);font-size:14px;
+  }
+  .figure .inner .surface{color:var(--deep);font-size:11px;letter-spacing:0.3em;margin-bottom:6px;}
+  .figure .inner .depth{margin-top:14px;color:var(--ink);}
+
+  /* ── 哲学 ── */
+  .phi-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:60px 0;
+    background:var(--line);
+  }
+  .phi-grid .cell{
+    background:var(--bg-2);padding:40px 28px;min-height:240px;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .phi-grid .cell h3{
+    font-size:14px;letter-spacing:0.4em;color:var(--moss);font-weight:400;margin-bottom:20px;
+  }
+  .phi-grid .cell p{font-size:13px;color:var(--mist);margin:0;line-height:2.1;}
+  .phi-grid .cell .sig{
+    font-size:10px;letter-spacing:0.5em;color:var(--deep);margin-top:22px;text-align:right;
+  }
+
+  /* ── 現在地 ── */
+  #summary .status{
+    margin:60px 0;padding:40px;
+    border:1px solid var(--line);
+    background:rgba(10,14,11,0.6);
+  }
+  #summary .status dl{
+    display:grid;grid-template-columns:140px 1fr;gap:14px 24px;
+    font-size:13px;color:var(--mist);
+  }
+  #summary .status dt{color:var(--deep);letter-spacing:0.3em;}
+
+  /* ── 終章 ── */
+  .epilogue{
+    min-height:70vh;display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:18vh 28px;
+    border-top:1px solid var(--line);
+  }
+  .epilogue .last{
+    font-size:clamp(16px,2vw,22px);
+    color:var(--ink);
+    line-height:2.8;letter-spacing:0.2em;
+    white-space:pre-line;
+  }
+  .epilogue .sign{
+    margin-top:64px;font-size:10px;letter-spacing:0.6em;color:var(--blood);
+  }
+
+  /* ── フッター ── */
+  footer{
+    padding:40px 28px 60px;
+    text-align:center;font-size:10px;letter-spacing:0.3em;
+    color:var(--deep);
+  }
+
+  /* ── レスポンシブ ── */
+  @media (max-width:720px){
+    .triad{grid-template-columns:1fr;}
+    .phi-grid{grid-template-columns:1fr;}
+    .figure{grid-template-columns:1fr;gap:10px;}
+    .figure .who{border-bottom:1px solid var(--line);padding-bottom:10px;}
+    #summary .status dl{grid-template-columns:1fr;gap:4px 0;}
+    #summary .status dt{margin-top:10px;}
+  }
+
+  /* 微かな揺らぎ */
+  @keyframes flicker{
+    0%,100%{opacity:1}
+    45%{opacity:0.92}
+    55%{opacity:0.97}
+  }
+  header .kanji{animation:flicker 7s infinite ease-in-out;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="sub">NIHON SANGOKU ― A DIVIDED SELF</div>
+  <div class="kanji">日 本 三 國</div>
+  <div class="sub">崩壊のあとに、人間が並んだ</div>
+  <div class="poem">国が壊れたのではない。
+人間が、壊れた順番に並んだだけだ。
+
+ここに記すのは、
+戦記ではなく、
+ひとつの精神が三つに裂ける音である。</div>
+  <div class="scroll">▽　S C R O L L</div>
+</header>
+
+<!-- ── 世界観 ── -->
+<section id="world">
+  <div class="wrap">
+    <span class="eyebrow">Ⅰ　W O R L D</span>
+    <h2>忘れた国</h2>
+
+    <div class="lead">文明は、忘れるかたちで終わる。
+技術が消え、言葉が鈍り、
+名前だけが、先に腐っていった。</div>
+
+    <p>令和の末、日本はすでに軋んでいた。遠い国の核が大地を割り、難民が海を渡り、疫が人を選ばず、地震が都市を均した。重税と飢饉と、間違いだらけの政（まつりごと）。人は最後に、自らの手で国を壊した。</p>
+
+    <p>人口は十分の一を下回り、文明は明治の初めまで巻き戻された。電気は逃げ、汽車は錆び、馬が戻ってきた。そして一世紀が経つ。</p>
+
+    <p>この島は、三つに裂けた。<span style="color:var(--moss)">大和</span>、<span style="color:var(--moss)">武凰</span>、<span style="color:var(--moss)">聖夷</span>。三つの旗は、三つの欠落の証である。</p>
+
+    <div class="quote">崩壊とは、記憶喪失である。
+人は忘れた瞬間に、もう一度、本性を思い出す。<span class="whisper">― 世界の註釈</span></div>
+  </div>
+</section>
+
+<!-- ── 三国構造 ── -->
+<section id="structure">
+  <div class="wrap">
+    <span class="eyebrow">Ⅱ　T R I A D</span>
+    <h2>三つに裂けた一人</h2>
+
+    <div class="lead">三国は、地図ではない。
+ひとりの人間のなかの、
+三つの層である。</div>
+
+    <div class="triad">
+      <div class="card">
+        <div class="name">大 和</div>
+        <div class="kana">Y A M A T O</div>
+        <div class="row"><span>都</span><span>大阪都</span></div>
+        <div class="row"><span>政体</span><span>君主制</span></div>
+        <div class="row"><span>象徴</span><span>帝</span></div>
+        <div class="row"><span>領域</span><span>旧関西・西日本</span></div>
+        <div class="row"><span>民</span><span>約460万</span></div>
+        <div class="psy">［心理層］秩序 / 理性
+腐り、それを礼で覆う国。</div>
+      </div>
+      <div class="card">
+        <div class="name">武 凰</div>
+        <div class="kana">B U O U</div>
+        <div class="row"><span>都</span><span>小田原都</span></div>
+        <div class="row"><span>政体</span><span>君主制</span></div>
+        <div class="row"><span>象徴</span><span>武凰帝</span></div>
+        <div class="row"><span>領域</span><span>関東・東北（太平洋側）</span></div>
+        <div class="row"><span>民</span><span>約317万</span></div>
+        <div class="psy">［心理層］力 / 欲望
+鎧のまま眠る国。</div>
+      </div>
+      <div class="card">
+        <div class="name">聖 夷</div>
+        <div class="kana">S E I I</div>
+        <div class="row"><span>都</span><span>聖籠都</span></div>
+        <div class="row"><span>政体</span><span>共和制（大統領）</span></div>
+        <div class="row"><span>暦</span><span>独自の聖紀暦</span></div>
+        <div class="row"><span>領域</span><span>日本海側・北海道</span></div>
+        <div class="row"><span>民</span><span>約194万</span></div>
+        <div class="psy">［心理層］異質 / 恐怖
+他者の形をした、自分。</div>
+      </div>
+    </div>
+
+    <p>三つは互いを敵視する。だが、互いがいなければ輪郭を保てない。敵とは、自分を映す鏡の別名である。</p>
+
+    <div class="quote">内戦とは、
+ひとりの人間が、
+自分のなかの三人に裁かれる儀式である。</div>
+  </div>
+</section>
+
+<!-- ── ストーリー ── -->
+<section id="story">
+  <div class="wrap">
+    <span class="eyebrow">Ⅲ　C H R O N I C L E</span>
+    <h2>少年が世界を作り替えるまで</h2>
+
+    <div class="lead">大和暦五六年。
+ひとりの百姓に、
+まだ名前しかなかった頃の話。</div>
+
+    <div class="timeline">
+      <div class="step">
+        <div class="era">序 ・ 愛媛郡</div>
+        <h3>三角青輝 ― 田を耕す男</h3>
+        <p>大和の片隅、愛媛郡。三角青輝（みつかど・せいき）は土を触り、書を読み、妻と暮らしていた。その妻は、図書館長の娘・東町小紀。静かな生であった。静か、という言葉がまだ意味を持てた頃のことだ。</p>
+      </div>
+
+      <div class="step">
+        <div class="era">破 ・ 中央の毒</div>
+        <h3>喪失</h3>
+        <p>大和の内務卿・平殿器（たいら・でんき）。先帝を毒で消し、国を掌に握った男。彼の機嫌を損ねた者は、理由もなく消える。東町小紀は、そのうちの一人となった。</p>
+        <p>青輝は、妻の処刑を見た。それだけが書かれれば十分である。</p>
+      </div>
+
+      <div class="step">
+        <div class="era">転 ・ 動機の変質</div>
+        <h3>復讐が、世界になる</h3>
+        <p>復讐は小さい。小さな復讐は、やがて自分に刺さって終わる。青輝はそれを知っていた。</p>
+        <p>だから彼は、相手を殺すのではなく、相手が立っている土台そのものを作り替えることにした。腐った政を、腐った国を、腐った「日本」という観念を。</p>
+      </div>
+
+      <div class="step">
+        <div class="era">承 ・ 都へ</div>
+        <h3>龍門光秀の下へ</h3>
+        <p>首都・大阪都。辺境の将軍・龍門光秀（りゅうもん・みつひで）は、大和に残った数少ない「正しさ」であった。高潔で、堅物で、誰もが頭を下げる男。青輝は、この男の軍師となる。</p>
+        <p>正しさは、単独では勝てない。正しさには、策略という影が要る。</p>
+      </div>
+
+      <div class="step">
+        <div class="era">急 ・ 奇才軍師</div>
+        <h3>一万で三万を飲む</h3>
+        <p>一万の兵で、三万の敵を崩す。青輝の戦は、数の戦ではない。人の心に、どの順番で、どの言葉を置くかの戦である。</p>
+        <p>恐怖を一点に集め、そこを誤認させる。勝敗は、刀が交わる前に決まっている。</p>
+      </div>
+
+      <div class="step">
+        <div class="era">渦 ・ 聖夷征西</div>
+        <h3>三国目の鏡</h3>
+        <p>共和制の国・聖夷。帝も血統もなく、投票で首を選ぶ国。大和にとってそれは、制度というより、価値観そのものの侵略であった。</p>
+        <p>聖夷征西編は終わった。勝敗は盤面に残ったが、何かが青輝の内側で、ゆっくりと入れ替わった。</p>
+      </div>
+
+      <div class="step">
+        <div class="era">現在 ・ 平伝基追撃</div>
+        <h3>毒の出どころへ</h3>
+        <p>戦いは、かつて妻を奪った男の方へ還ってゆく。大和の内側の腐肉。青輝は軍師として、国家そのものを解体しにかかっている。</p>
+        <p>これは復讐ではない。構造の終わりである。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 人物 ── -->
+<section id="characters">
+  <div class="wrap">
+    <span class="eyebrow">Ⅳ　F I G U R E S</span>
+    <h2>名前のうしろにいる人間</h2>
+
+    <div class="lead">人は、感情では動かない。
+失ったものの、重さで動く。</div>
+
+    <div class="figures">
+      <div class="figure">
+        <div class="who">三角 青輝<small>MITSUKADO SEIKI</small></div>
+        <div class="inner">
+          <div class="surface">表 層</div>
+          冷静。弁が立つ。読書量が異常。若い。笑う。敵にさえ笑う。
+          <div class="depth">内 側</div>
+          愛を一度、具体的に失った人間は、抽象を愛しはじめる。彼が「日本」と言うとき、そこには小紀の名前の音が混ざっている。救いたいのは国ではない。もう救えないものの形を、国に彫っているだけだ。
+        </div>
+      </div>
+
+      <div class="figure">
+        <div class="who">東町 小紀<small>HIGASHIMACHI SAKI</small></div>
+        <div class="inner">
+          <div class="surface">表 層</div>
+          図書館長の娘。青輝の妻。処刑された女性。
+          <div class="depth">内 側</div>
+          彼女はもう物語に出てこない。だから、すべての場面に出ている。青輝の戦略の、最初の一文字目は、いつも彼女の名前の母音である。</div>
+      </div>
+
+      <div class="figure">
+        <div class="who">平 殿器<small>TAIRA DENKI</small></div>
+        <div class="inner">
+          <div class="surface">表 層</div>
+          大和の内務卿。先帝を毒殺し、国を握る。気に入らない者を消す。
+          <div class="depth">内 側</div>
+          悪は、自分を悪と思っていない。彼は秩序を守っているつもりだ。彼のような人間こそ、国家がいちばん丁寧に育てる種類の果実である。</div>
+      </div>
+
+      <div class="figure">
+        <div class="who">龍門 光秀<small>RYUMON MITSUHIDE</small></div>
+        <div class="inner">
+          <div class="surface">表 層</div>
+          大和の辺境将軍。文武に秀で、高潔。誰もが尊敬する男。
+          <div class="depth">内 側</div>
+          正しさには重力がある。だがその重力は、彼自身を少しずつ押し潰す。青輝を軍師に迎えた瞬間、彼はもう、純粋ではいられない契約をしている。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 哲学 ── -->
+<section id="philosophy">
+  <div class="wrap">
+    <span class="eyebrow">Ⅴ　P H I L O S O P H Y</span>
+    <h2>三つの問い</h2>
+
+    <div class="lead">この物語が本当に語っているのは、
+剣の数ではない。</div>
+
+    <div class="phi-grid">
+      <div class="cell">
+        <div>
+          <h3>戦争とは</h3>
+          <p>戦争は、敵を殺す行為ではない。自分の正しさを、他人の身体で証明する行為である。剣は、言葉が尽きたあとの、言葉の最後の一文字にすぎない。</p>
+        </div>
+        <div class="sig">Ｉ</div>
+      </div>
+      <div class="cell">
+        <div>
+          <h3>国家とは</h3>
+          <p>国は、地面ではない。地面の上に、人々がそろって見ている幻である。信じる者が消えた瞬間、国は地図から静かに抜け落ちる。大和も、武凰も、聖夷も、誰かが信じ続けている間だけ存在する。</p>
+        </div>
+        <div class="sig">Ⅱ</div>
+      </div>
+      <div class="cell">
+        <div>
+          <h3>知略とは</h3>
+          <p>知略は、暴力を間接化した美しい殺意である。言葉で人を動かすとき、その言葉はすでに刃の形をしている。青輝は、刀を抜かずに人を斬る。斬られた者は、最後まで自分が斬られたことに気づかない。</p>
+        </div>
+        <div class="sig">Ⅲ</div>
+      </div>
+    </div>
+
+    <div class="quote">「再統一」という言葉に注意すること。
+それは、割れた器を直すという意味ではない。
+三つの声のうち、
+どれかひとつだけが、残るという意味である。</div>
+  </div>
+</section>
+
+<!-- ── 現在地 ── -->
+<section id="summary">
+  <div class="wrap">
+    <span class="eyebrow">Ⅵ　N O W</span>
+    <h2>現在地点</h2>
+
+    <div class="lead">物語は、まだ終わっていない。
+未完とは、結末の不在ではなく、
+まだ誰も飲み込まれきっていない、という意味である。</div>
+
+    <div class="status">
+      <dl>
+        <dt>作　品</dt><dd>『日本三國』／松木いっか</dd>
+        <dt>連　載</dt><dd>裏サンデー・マンガワン（2021年11月〜連載中）</dd>
+        <dt>累　計</dt><dd>シリーズ100万部突破</dd>
+        <dt>舞　台</dt><dd>2025年上演</dd>
+        <dt>アニメ</dt><dd>2026年4月放送開始</dd>
+        <dt>章 立 て</dt><dd>聖夷征西編（完）／平伝基追撃編（現行）</dd>
+        <dt>座　標</dt><dd>大和暦五六年以降</dd>
+      </dl>
+    </div>
+
+    <p>青輝は、いま、自分が始めた火が、自分の思っていたより広く燃えていることに気づき始めている。火は、点けた者の手を、最後には焼く。彼がそれを知らないはずがない。知っていて、なお、彼は燃やす。</p>
+  </div>
+</section>
+
+<!-- ── 終章 ── -->
+<div class="epilogue">
+  <div>
+    <div class="last">統一とは、終わりではない。
+ただ一つの狂気が、
+他を飲み込んだだけだ。</div>
+    <div class="sign">― 日 本 三 國 ・ 記 録 の 果 て に</div>
+  </div>
+</div>
+
+<footer>
+  本ページは非公式の考察である。事実関係は随時更新される可能性がある。
+</footer>
+
+</body>
+</html>
