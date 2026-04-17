@@ -143,6 +143,147 @@
     font-size:12px;color:var(--moss);letter-spacing:0.2em;
   }
 
+  /* ── 勢力地図 ── */
+  .map-stage{margin:70px -20px;}
+  .map-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/2;
+    background:#000;
+    border:1px solid var(--line);
+    overflow:hidden;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.6),
+      inset 0 0 180px rgba(0,0,0,0.5);
+  }
+  .map-img{
+    width:100%;height:100%;object-fit:cover;
+    object-position:center;
+    display:block;
+    filter:saturate(0.9) contrast(1.02);
+  }
+  .map-grain{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%),
+      repeating-linear-gradient(0deg,
+        rgba(255,255,255,0) 0,
+        rgba(255,255,255,0) 2px,
+        rgba(255,255,255,0.025) 3px);
+    mix-blend-mode:overlay;
+  }
+  .region-label{
+    position:absolute;
+    left:var(--x);top:var(--y);
+    transform:translate(-50%,-50%);
+    display:flex;flex-direction:column;align-items:center;
+    color:#ffffff;
+    font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+    letter-spacing:0.15em;
+    font-weight:600;
+    text-align:center;
+    text-shadow:
+      0 0 12px rgba(0,0,0,0.9),
+      0 0 24px rgba(0,0,0,0.6),
+      0 2px 4px rgba(0,0,0,0.9);
+    cursor:default;
+    transition:transform 0.5s cubic-bezier(.2,.8,.2,1), filter 0.5s ease;
+    z-index:3;
+    user-select:none;
+  }
+  .region-label .ja{
+    font-size:3vw;
+    line-height:1;
+    padding:0 0.1em;
+  }
+  .region-label .en{
+    font-size:0.75vw;
+    letter-spacing:0.5em;
+    margin-top:8px;
+    opacity:0.75;
+    font-weight:400;
+  }
+  .region-label .tag{
+    font-size:0.7vw;
+    letter-spacing:0.25em;
+    margin-top:6px;
+    padding:3px 10px;
+    border:1px solid rgba(255,255,255,0.35);
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(2px);
+    color:rgba(255,255,255,0.9);
+    font-weight:400;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity 0.5s ease, transform 0.5s ease;
+  }
+  .region-label::before{
+    content:"";
+    position:absolute;
+    top:50%;left:50%;
+    width:8px;height:8px;border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:#fff;
+    box-shadow:0 0 12px rgba(255,255,255,0.6);
+    opacity:0;
+    z-index:-1;
+  }
+  .region-label:hover{
+    transform:translate(-50%,-50%) scale(1.08);
+    filter:drop-shadow(0 0 18px rgba(255,255,255,0.3));
+  }
+  .region-label:hover .tag{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .region-label.yamato{color:#eaf4ff;}
+  .region-label.yamato .en{color:#8bc2e8;}
+  .region-label.buou{color:#ffe9f3;}
+  .region-label.buou .en{color:#e88bb9;}
+  .region-label.seii{color:#fff5dc;}
+  .region-label.seii .en{color:#e8c878;}
+
+  /* ラベル常時発光（サブ）*/
+  @keyframes pulse-ya{0%,100%{filter:drop-shadow(0 0 4px rgba(45,143,203,0.4));}50%{filter:drop-shadow(0 0 12px rgba(45,143,203,0.7));}}
+  @keyframes pulse-bu{0%,100%{filter:drop-shadow(0 0 4px rgba(216,66,143,0.4));}50%{filter:drop-shadow(0 0 12px rgba(216,66,143,0.7));}}
+  @keyframes pulse-se{0%,100%{filter:drop-shadow(0 0 4px rgba(233,180,41,0.4));}50%{filter:drop-shadow(0 0 12px rgba(233,180,41,0.7));}}
+  .region-label.yamato{animation:pulse-ya 4s ease-in-out infinite;}
+  .region-label.buou{animation:pulse-bu 4s ease-in-out infinite 1s;}
+  .region-label.seii{animation:pulse-se 4s ease-in-out infinite 2s;}
+
+  .map-legend{
+    position:absolute;
+    left:16px;bottom:14px;
+    display:flex;gap:16px;
+    font-size:11px;letter-spacing:0.3em;
+    color:rgba(255,255,255,0.75);
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(3px);
+    padding:8px 14px;
+    border:1px solid rgba(255,255,255,0.12);
+    z-index:4;
+  }
+  .map-legend span{display:flex;align-items:center;gap:7px;}
+  .map-legend i{
+    display:inline-block;width:10px;height:10px;border-radius:50%;
+    box-shadow:0 0 8px currentColor;
+  }
+  .map-caption{
+    margin-top:14px;
+    font-size:11px;
+    letter-spacing:0.35em;
+    color:var(--deep);
+    text-align:right;
+    padding-right:12px;
+  }
+  @media (max-width:720px){
+    .map-stage{margin:50px 0;}
+    .region-label .ja{font-size:24px;}
+    .region-label .en{font-size:9px;}
+    .region-label .tag{font-size:9px;padding:2px 6px;}
+    .map-legend{font-size:9px;gap:8px;padding:5px 8px;left:8px;bottom:8px;}
+  }
+
   /* ── タイムライン ── */
   .timeline{margin:60px 0;position:relative;padding-left:30px;}
   .timeline::before{
@@ -502,6 +643,38 @@
     <div class="lead">三国は、地図ではない。
 ひとりの人間のなかの、
 三つの層である。</div>
+
+    <div class="map-stage">
+      <div class="map-frame">
+        <img src="images/map.jpg" alt="大和・武凰・聖夷 三国勢力図" class="map-img">
+        <div class="map-grain"></div>
+
+        <span class="region-label yamato" style="--x:15%; --y:55%;">
+          <span class="ja">大和</span>
+          <span class="en">Y A M A T O</span>
+          <span class="tag">秩序 ／ 理性</span>
+        </span>
+
+        <span class="region-label buou" style="--x:48%; --y:58%;">
+          <span class="ja">武凰</span>
+          <span class="en">B U O U</span>
+          <span class="tag">力 ／ 欲望</span>
+        </span>
+
+        <span class="region-label seii" style="--x:70%; --y:20%;">
+          <span class="ja">聖夷</span>
+          <span class="en">S E I I</span>
+          <span class="tag">異質 ／ 恐怖</span>
+        </span>
+
+        <div class="map-legend">
+          <span><i style="background:#2d8fcb"></i>大和</span>
+          <span><i style="background:#d8428f"></i>武凰</span>
+          <span><i style="background:#e9b429"></i>聖夷</span>
+        </div>
+      </div>
+      <div class="map-caption">― 地図：列島という一枚の紙に、三つのインクが滲む</div>
+    </div>
 
     <div class="triad">
       <div class="card">
