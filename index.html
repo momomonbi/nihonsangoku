@@ -256,6 +256,132 @@
     55%{opacity:0.97}
   }
   header .kanji{animation:flicker 7s infinite ease-in-out;}
+
+  /* ── 挿絵 ── */
+  .plate{
+    margin:70px -20px;
+    position:relative;
+    padding:0;
+  }
+  .plate figure{
+    position:relative;
+    margin:0;
+    overflow:hidden;
+    background:#000;
+    border:1px solid var(--line);
+    box-shadow:
+      0 0 0 1px rgba(127,166,138,0.05),
+      0 30px 80px rgba(0,0,0,0.6),
+      inset 0 0 120px rgba(0,0,0,0.35);
+  }
+  .plate figure img{
+    display:block;
+    width:100%;
+    height:auto;
+    filter:
+      grayscale(0.15)
+      contrast(1.05)
+      saturate(0.85)
+      brightness(0.88);
+    transition:filter 1.2s ease, transform 6s ease;
+  }
+  .plate figure::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at center, transparent 45%, rgba(5,8,6,0.55) 100%),
+      linear-gradient(180deg, rgba(5,8,6,0.2) 0%, transparent 20%, transparent 80%, rgba(5,8,6,0.55) 100%);
+    pointer-events:none;
+    z-index:2;
+  }
+  .plate figure::after{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,0.04) 3px
+      );
+    pointer-events:none;
+    mix-blend-mode:multiply;
+    z-index:3;
+  }
+  .plate:hover figure img{
+    filter:grayscale(0) contrast(1.08) saturate(1) brightness(0.95);
+    transform:scale(1.02);
+  }
+  .plate figcaption{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    padding:20px 26px 18px;
+    display:flex;justify-content:space-between;align-items:flex-end;
+    color:var(--mist);
+    font-size:11px;
+    letter-spacing:0.4em;
+    z-index:4;
+    background:linear-gradient(180deg, transparent, rgba(0,0,0,0.7));
+  }
+  .plate figcaption .jp{
+    color:var(--ink);
+    font-size:13px;
+    letter-spacing:0.3em;
+  }
+  .plate figcaption .en{
+    color:var(--moss);
+    font-size:9px;
+    letter-spacing:0.6em;
+  }
+  .plate .seal{
+    position:absolute;
+    top:22px;right:22px;
+    width:58px;height:58px;
+    border:1px solid var(--blood);
+    color:var(--blood);
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;letter-spacing:0.1em;
+    background:rgba(122,46,46,0.08);
+    transform:rotate(-6deg);
+    z-index:5;
+    text-align:center;line-height:1.2;
+    font-weight:500;
+  }
+  .plate .seal::before{
+    content:"";position:absolute;inset:3px;border:1px solid var(--blood);opacity:0.4;
+  }
+  .plate .corner{
+    position:absolute;z-index:4;width:22px;height:22px;
+    border:1px solid var(--moss);opacity:0.5;
+  }
+  .plate .corner.tl{top:10px;left:10px;border-right:none;border-bottom:none;}
+  .plate .corner.tr{top:10px;right:10px;border-left:none;border-bottom:none;}
+  .plate .corner.bl{bottom:10px;left:10px;border-right:none;border-top:none;}
+  .plate .corner.br{bottom:10px;right:10px;border-left:none;border-top:none;}
+
+  .plate .caption-under{
+    margin-top:14px;
+    font-size:11px;
+    letter-spacing:0.4em;
+    color:var(--deep);
+    text-align:right;
+    padding-right:12px;
+  }
+
+  /* 挿絵 ── 大きい版 */
+  .plate.hero figure{
+    aspect-ratio:3/2;
+  }
+  .plate.hero figure img{
+    width:100%;height:100%;object-fit:cover;
+    object-position:center 30%;
+  }
+
+  @media (max-width:720px){
+    .plate{margin:50px 0;}
+    .plate figcaption{padding:14px 16px 12px;}
+    .plate .seal{width:44px;height:44px;font-size:11px;top:14px;right:14px;}
+  }
 </style>
 </head>
 <body>
@@ -284,6 +410,20 @@
 名前だけが、先に腐っていった。</div>
 
     <p>令和の末、日本はすでに軋んでいた。遠い国の核が大地を割り、難民が海を渡り、疫が人を選ばず、地震が都市を均した。重税と飢饉と、間違いだらけの政（まつりごと）。人は最後に、自らの手で国を壊した。</p>
+
+    <div class="plate hero">
+      <figure>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <span class="seal">崩<br>壊</span>
+        <img src="images/collapse-tokyo.jpg" alt="崩壊した東京、血塗れの日章旗を持つ兵士たち" loading="lazy">
+        <figcaption>
+          <span class="jp">令 和 の 終 ・ 都 落 ち</span>
+          <span class="en">T H E  L A S T  D A Y</span>
+        </figcaption>
+      </figure>
+      <div class="caption-under">― 絵：東京最終日の記録、旗は自らの血で染まる</div>
+    </div>
 
     <p>人口は十分の一を下回り、文明は明治の初めまで巻き戻された。電気は逃げ、汽車は錆び、馬が戻ってきた。そして一世紀が経つ。</p>
 
@@ -341,6 +481,20 @@
     </div>
 
     <p>三つは互いを敵視する。だが、互いがいなければ輪郭を保てない。敵とは、自分を映す鏡の別名である。</p>
+
+    <div class="plate hero">
+      <figure>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <span class="seal">三<br>将</span>
+        <img src="images/three-officers.jpg" alt="燃える街を見下ろす三人の将校" loading="lazy">
+        <figcaption>
+          <span class="jp">三 人 の 将 ・ 裁 き の 朝</span>
+          <span class="en">T H R E E  J U D G E S</span>
+        </figcaption>
+      </figure>
+      <div class="caption-under">― 絵：内側の三人、外側の一つの焼け野原</div>
+    </div>
 
     <div class="quote">内戦とは、
 ひとりの人間が、
